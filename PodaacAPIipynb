@@ -1,0 +1,1277 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "PodaacSub.ipynb",
+      "private_outputs": true,
+      "provenance": [],
+      "collapsed_sections": [],
+      "machine_shape": "hm",
+      "authorship_tag": "ABX9TyN725Gi/GBdiKo6oj0kOhqK",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    },
+    "gpuClass": "standard"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Stp155906/Data-Science-For-Beginners/blob/main/PodaacAPIipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "jXt78YOpdtpx"
+      },
+      "outputs": [],
+      "source": [
+        ""
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# PODAAC CLOUD API S3 Datasets "
+      ],
+      "metadata": {
+        "id": "x86uByJgZzzb"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install podaac-data-subscriber"
+      ],
+      "metadata": {
+        "id": "KEwosmg7YXk_"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!git clone -l -s https://github.com/podaac/data-subscriber.git clonedgit"
+      ],
+      "metadata": {
+        "id": "M2UcB-qLWXBf"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "%cd clonedgit\n",
+        "!ls"
+      ],
+      "metadata": {
+        "id": "LWHQN-LSbF7Z"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#os.read('podaac_data_subscriber.py')\n",
+        "%cd subscriber/\n",
+        "!ls"
+      ],
+      "metadata": {
+        "id": "oaU7zFWvdguS"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import googleapiclient\n",
+        "#Save first then import \n",
+        "from google.colab import files\n",
+        "#reading file cloned from github \n",
+        "files.view('podaac_data_subscriber.py')\n",
+        "\n",
+        "open_file = files.view('podaac_data_subscriber.py')"
+      ],
+      "metadata": {
+        "id": "nlgkyTEufNLt"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        ""
+      ],
+      "metadata": {
+        "id": "pUQxg-QFAcuh"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "\n",
+        "\n",
+        "---\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "mLf7Nhgl6ypi"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!git clone -l -s https://github.com/podaac/Data-Recipes.git datarecipes\n"
+      ],
+      "metadata": {
+        "id": "AdkHr4nzyIeE"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install prettyprinter"
+      ],
+      "metadata": {
+        "id": "4btObGi_78eX"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install utils\n",
+        "#!pip install pprint\n",
+        "!pip install datetime \n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "cNTieHAv7Yok"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Accessing Existing collection in PODAAC CLOUD AWS S3\n",
+        "\n",
+        "import utils\n",
+        "import pprint\n",
+        "import xarray as xr\n",
+        "from datetime import datetime\n",
+        "import warnings\n",
+        "\n",
+        "warnings.simplefilter(action='ignore')"
+      ],
+      "metadata": {
+        "id": "WXBPNpVci73Q"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!git clone https://github.com/podaac/Data-Recipes.git recipes\n",
+        "\n",
+        "%cd recipes\n",
+        "!ls\n"
+      ],
+      "metadata": {
+        "id": "GHzVOlIh_0Qy"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#ls dataset-introduction \n",
+        "%cd dataset-introduction/"
+      ],
+      "metadata": {
+        "id": "ZvC1jgNsAXsB"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "ls"
+      ],
+      "metadata": {
+        "id": "bWJKrENuAxgp"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# open file \n",
+        "import googleapiclient\n",
+        "#Save first then import \n",
+        "from google.colab import files\n",
+        "#reading file cloned from github \n",
+        "files.view('utils.py')\n",
+        "\n",
+        "open_file = files.view('utils.py')"
+      ],
+      "metadata": {
+        "id": "xCwD3UttAhk0"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Do not need to run \n",
+        "files.upload()"
+      ],
+      "metadata": {
+        "id": "AXCk_P8bBK6s"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#run(utils.py)\n",
+        "\n",
+        "!pip install recipes"
+      ],
+      "metadata": {
+        "id": "eu5YGIKhCT5r"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import requests\n",
+        "from pprint import pprint\n",
+        "CMR_OPS = 'https://cmr.earthdata.nasa.gov/search'\n",
+        "collection_url = 'https://cmr.earthdata.nasa.gov/search/collections'\n",
+        "var_url = \"https://cmr.earthdata.nasa.gov/search/variables\"\n"
+      ],
+      "metadata": {
+        "id": "_onZmcE4DBVT"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# Listing Available datasets"
+      ],
+      "metadata": {
+        "id": "dkhet2UB8U_n"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import utils\n",
+        "import warnings\n",
+        "import pandas as pd\n",
+        "import time\n",
+        "\n",
+        "#utils.all_pocloud_dataset()\n",
+        "pd.set_option('display.max_rows', None)\n",
+        "pd.set_option('max_colwidth', 150)\n",
+        "warnings.simplefilter(action='ignore')\n",
+        "data= all_pocloud_dataset('https://archive.podaac.earthdata.nasa.gov/s3credentials')\n",
+        "#data=data.sort_values('time_start')\n",
+        "display(data)\n",
+        "#data.to_html('All_POCLOUD_Data.html')"
+      ],
+      "metadata": {
+        "id": "6-CesRRF8G2s"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install pandas"
+      ],
+      "metadata": {
+        "id": "RgxaQ8YIGLid"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pandas as pd\n",
+        "\n",
+        "df = pd.DataFrame(data)\n",
+        "\n",
+        "df"
+      ],
+      "metadata": {
+        "id": "UNJIYDt-GQw2"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#Short_name is used to identify a specific dataset in NASA Earthdata. \n",
+        "short_name='OISSS_L4_multimission_monthly_v1'"
+      ],
+      "metadata": {
+        "id": "spwVee98HO4T"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install requests\n",
+        "!pip install s3fs"
+      ],
+      "metadata": {
+        "id": "EjQfkkz_JLmY"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import os \n",
+        "!pip install --upgrade s3fs\n",
+        "#import s3fs"
+      ],
+      "metadata": {
+        "id": "kXQZc5d9K5NN"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!git clone https://github.com/fsspec/s3fs.git \n",
+        "%cd s3fs\n",
+        "#!python setup.py install\n"
+      ],
+      "metadata": {
+        "id": "IEaeTGriLkqS"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install awscli"
+      ],
+      "metadata": {
+        "id": "QEwXqw2fR_Lh"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import awscli\n",
+        "import setuptools\n"
+      ],
+      "metadata": {
+        "id": "rBNIpnWbTWEj"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "temp_creds_url = all_pocloud_dataset('https://archive.podaac.earthdata.nasa.gov/s3credentials')"
+      ],
+      "metadata": {
+        "id": "iea8NflYOtWx"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "\n",
+        "\n",
+        "---\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "8gSd1nbrWfGX"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pprint\n",
+        "\n",
+        "#s3://podaac-ops-cumulus-protected is the PODAAC S3 bucket. \n",
+        "#s3://podaac-ops-cumulus-protected/{short_name} is the path to this dataset. \n",
+        "\n",
+        "#temp_creds_url = all_pocloud_dataset('https://archive.podaac.earthdata.nasa.gov/s3credentials')\n",
+        "\n",
+        "!pip install asyncio\n",
+        "!pip install aiobotocore\n",
+        "\n",
+        "import asyncio\n",
+        "#from aiobotocore.session import get_session"
+      ],
+      "metadata": {
+        "id": "lgR0qTRvO7L5"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install botocore"
+      ],
+      "metadata": {
+        "id": "d7JKmQaKYRHj"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install s3fs\n",
+        "#!pip install s3fs --version\n",
+        "!pip install --upgrade s3fs"
+      ],
+      "metadata": {
+        "id": "Yfog_Y9mYXSt"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "%matplotlib inline\n",
+        "import matplotlib.pyplot as plt\n",
+        "from datetime import datetime\n",
+        "import os\n",
+        "import requests\n",
+        "import botocore\n",
+        "import numpy as np\n",
+        "import xarray as xr\n",
+        "import rasterio as rio\n",
+        "from rasterio.session import AWSSession\n",
+        "from rasterio.plot import show\n",
+        "import rioxarray\n",
+        "#import geoviews as gv\n",
+        "\n",
+        "import holoviews as hv\n",
+        "gv.extension('bokeh', 'matplotlib')\n"
+      ],
+      "metadata": {
+        "id": "WCi11XNeZuxG"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "\n",
+        "\n",
+        "---\n",
+        "\n",
+        "\n",
+        "\n",
+        "---\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "V7xDSzuGeB4E"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install panel==0.12.6 hvplot==0.7.3"
+      ],
+      "metadata": {
+        "id": "kOVrZANZcJ4u"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import hvplot\n",
+        "import holoviews as hv\n"
+      ],
+      "metadata": {
+        "id": "5-pJuEkqcrfO"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Create Direct access to s3\n",
+        "def direct_s3(provider='podaac'):\n",
+        "    import requests,s3fs\n",
+        "    s3_cred_endpoint = {\n",
+        "        'podaac':'https://archive.podaac.earthdata.nasa.gov/s3credentials',\n",
+        "        'lpdaac':'https://data.lpdaac.earthdatacloud.nasa.gov/s3credentials'}\n",
+        "\n",
+        "    temp_creds_url = s3_cred_endpoint[provider]\n",
+        "    creds = requests.get(temp_creds_url).json()\n",
+        "    s3 = s3fs.S3FileSystem(anon=False,\n",
+        "                           key=creds['accessKeyId'],\n",
+        "                           secret=creds['secretAccessKey'], \n",
+        "                           token=creds['sessionToken'])\n",
+        "    return s3"
+      ],
+      "metadata": {
+        "id": "n__1C7Ile52Q"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "#For temp access view here\n",
+        "#https://nasa-openscapes.github.io/2021-Cloud-Hackathon/tutorials/05_Data_Access_Direct_S3.html"
+      ],
+      "metadata": {
+        "id": "2U8JD7l_fQab"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        ""
+      ],
+      "metadata": {
+        "id": "fX6MjJ-1fUkk"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "# GHRSST Level 4 AVHRR_OI Global Blended Sea Surface Temperature Analysis (GDS2) from NCEI\n",
+        "\n",
+        "\n",
+        "\n",
+        "\n",
+        "---\n",
+        "\n",
+        "\n",
+        "\n",
+        "> https://github.com/podaac/Data-Recipes/blob/main/dataset-introduction/AVHRR_OI-NCEI-L4-GLOB-v2.1.ipynb\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "UyDqAxFrfdGq"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "\n",
+        "\n",
+        "---\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "Q96pnWpZfoKs"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install utils\n"
+      ],
+      "metadata": {
+        "id": "cKYZm54-fwfi"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Connecting to datasets\n",
+        "\n",
+        "\n",
+        "import utils\n",
+        "import pprint\n",
+        "import xarray as xr\n",
+        "from datetime import datetime\n",
+        "import warnings\n",
+        "\n",
+        "warnings.simplefilter(action='ignore')"
+      ],
+      "metadata": {
+        "id": "D4d3CNmUfsXN"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\"\"\"\n",
+        "Some ground level functions\n",
+        "\"\"\"\n",
+        "\n",
+        "import requests\n",
+        "from pprint import pprint\n",
+        "CMR_OPS = 'https://cmr.earthdata.nasa.gov/search'\n",
+        "collection_url = 'https://cmr.earthdata.nasa.gov/search/collections'\n",
+        "var_url = \"https://cmr.earthdata.nasa.gov/search/variables\"\n",
+        "\n",
+        "def find_dataset(provider='podaac',\n",
+        "                 keywords=['swot','level-2']):\n",
+        "    \"\"\"\n",
+        "    Find a list of collections/datasets that match all the keywords from the keywords list.\n",
+        "    \n",
+        "    \n",
+        "    \"\"\"\n",
+        "    import pandas as pd\n",
+        "\n",
+        "    if 'podaac' in provider.lower().replace('.',''):\n",
+        "        provider='POCLOUD'\n",
+        "        \n",
+        "    response = requests.get(collection_url,params={'cloud_hosted': 'True',\n",
+        "                                        'has_granules': 'True',\n",
+        "                                        'provider': provider,\n",
+        "                                        'page_size':2000,},\n",
+        "                                headers={'Accept': 'application/json', } )\n",
+        "    \n",
+        "    collections = response.json()['feed']['entry']\n",
+        "    \n",
+        "    entries={}\n",
+        "    entries['short_name']=[]\n",
+        "    entries['long_name']=[]\n",
+        "    entries['concept_id']=[]\n",
+        "    entries['time_start']=[]\n",
+        "    entries['time_end']=[]\n",
+        "    \n",
+        "    \n",
+        "    for collection in collections:\n",
+        "        \n",
+        "        title=\"%s %s %s\"%(collection[\"short_name\"],collection[\"dataset_id\"][:97],collection[\"id\"])\n",
+        "        match=1\n",
+        "        for kw in keywords:\n",
+        "            match *= kw.lower() in title.lower()\n",
+        "            \n",
+        "        if match==1:\n",
+        "            entries['short_name'].append(collection[\"short_name\"])\n",
+        "            entries['concept_id'].append(collection[\"id\"])\n",
+        "            entries['long_name'].append(collection[\"dataset_id\"])\n",
+        "            entries['time_start'].append(collection[\"time_start\"])\n",
+        "            try:\n",
+        "                entries['time_end'].append(collection[\"time_end\"])\n",
+        "            except:\n",
+        "                entries['time_end'].append(['NaT/Present'])\n",
+        "    \n",
+        "    return pd.DataFrame(entries)\n",
+        "\n",
+        "def all_pocloud_dataset(provider='podaac'):\n",
+        "    \"\"\"\n",
+        "    a list of all POCLOUD collections.\n",
+        "    \"\"\"\n",
+        "    import pandas as pd\n",
+        "\n",
+        "    if 'podaac' in provider.lower().replace('.',''):\n",
+        "        provider='POCLOUD'\n",
+        "        \n",
+        "    response = requests.get(collection_url,params={'cloud_hosted': 'True',\n",
+        "                                        'provider': provider,\n",
+        "                                        'page_size':2000,},\n",
+        "                                headers={'Accept': 'application/json', } )\n",
+        "    \n",
+        "    collections = response.json()['feed']['entry']\n",
+        "    \n",
+        "    entries={}\n",
+        "    entries['short_name']=[]\n",
+        "    entries['long_name']=[]\n",
+        "    entries['concept_id']=[]\n",
+        "    entries['time_start']=[]\n",
+        "    entries['time_end']=[]\n",
+        "    \n",
+        "    \n",
+        "    for collection in collections:\n",
+        "        \n",
+        "        title=\"%s %s %s\"%(collection[\"short_name\"],collection[\"dataset_id\"][:97],collection[\"id\"])\n",
+        "        match=1\n",
+        "        entries['short_name'].append(collection[\"short_name\"])\n",
+        "        entries['concept_id'].append(collection[\"id\"])\n",
+        "        entries['long_name'].append(collection[\"dataset_id\"])\n",
+        "        entries['time_start'].append(collection[\"time_start\"][:10])\n",
+        "        try:\n",
+        "            entries['time_end'].append(collection[\"time_end\"][:10])\n",
+        "        except:\n",
+        "            entries['time_end'].append(['NaT/Present'])\n",
+        "    \n",
+        "    return pd.DataFrame(entries)\n",
+        "\n",
+        "def direct_s3(provider='podaac'):\n",
+        "    import requests,s3fs\n",
+        "    s3_cred_endpoint = {\n",
+        "        'podaac':'https://archive.podaac.earthdata.nasa.gov/s3credentials',\n",
+        "        'lpdaac':'https://data.lpdaac.earthdatacloud.nasa.gov/s3credentials'}\n",
+        "\n",
+        "    temp_creds_url = s3_cred_endpoint[provider]\n",
+        "    creds = requests.get(temp_creds_url).json()\n",
+        "    s3 = s3fs.S3FileSystem(anon=False,\n",
+        "                           key=creds['accessKeyId'],\n",
+        "                           secret=creds['secretAccessKey'], \n",
+        "                           token=creds['sessionToken'])\n",
+        "    return s3\n"
+      ],
+      "metadata": {
+        "id": "Mju8m7P4hpm0"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "\n",
+        "\n",
+        "def direct_s3(provider='podaac'):\n",
+        "    import requests,s3fs\n",
+        "    s3_cred_endpoint = {\n",
+        "        'podaac':'https://archive.podaac.earthdata.nasa.gov/s3credentials',\n",
+        "        'lpdaac':'https://data.lpdaac.earthdatacloud.nasa.gov/s3credentials'}\n",
+        "\n",
+        "    temp_creds_url = s3_cred_endpoint[provider]\n",
+        "    creds = requests.get(temp_creds_url).json()\n",
+        "    s3 = s3fs.S3FileSystem(anon=False,\n",
+        "                           key=creds['accessKeyId'],\n",
+        "                           secret=creds['secretAccessKey'], \n",
+        "                           token=creds['sessionToken'])\n",
+        "    return s3\n"
+      ],
+      "metadata": {
+        "id": "rxMUXRB4f6F0"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import collections\n",
+        "\n",
+        "archive_files = 'https://archive.podaac.earthdata.nasa.gov/s3credentials'\n",
+        "other_files = 'https://data.lpdaac.earthdatacloud.nasa.gov/s3credentials'\n",
+        "\n",
+        "CMR_OPS\n",
+        "direct_s3\n",
+        "#podaac_s3='podaac-ops-cumulus-protected'\n",
+        "\n",
+        "#395 total collections in PODAAC CLOUD (POCLOUD) by 03/25/2022.\n",
+        "print(len(temp_creds_url), \"total collections in PODAAC CLOUD (POCLOUD) by %s.\"%datetime.today().strftime('%m/%d/%Y'))\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "PooejjH7h2nW"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "find_dataset(keywords=['AVHRR'])\n",
+        "\n",
+        "wind_data = find_dataset(keywords=['AVHRR'])\n",
+        "\n",
+        "display(wind_data)\n",
+        "\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "dOXmPJ5Bgi1Z"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#find_dataset(keywords=['Sea Surface Temperature'])\n",
+        "\n",
+        "\n",
+        "Sea_Surface_Temperature = find_dataset(keywords=['Sea Surface Temperature'])\n",
+        "\n",
+        "display(Sea_Surface_Temperature)"
+      ],
+      "metadata": {
+        "id": "03iqeYcblEB9"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install datetime"
+      ],
+      "metadata": {
+        "id": "CaCnGKOulq-3"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "\n",
+        "from datetime import time\n",
+        "\n",
+        "Sea_Surface_Temperature = find_dataset(keywords=['1992'])\n",
+        "\n",
+        "display(Sea_Surface_Temperature)"
+      ],
+      "metadata": {
+        "id": "a8YEYFS0lhPt"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "import datetime as dt\n",
+        "# or\n",
+        "from datetime import date\n",
+        "\n",
+        "d1 = dt.date(2020, 11, 19)\n",
+        "d1\n",
+        "#datetime.date(2020, 11, 19)\n",
+        "\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "klZuPsgpl88U"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        " d1.year"
+      ],
+      "metadata": {
+        "id": "8Xj8K6ImmoY5"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "d1.month"
+      ],
+      "metadata": {
+        "id": "1aq26UXBmpP_"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "d1.day"
+      ],
+      "metadata": {
+        "id": "oLyzhn2zmrRh"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "oldest = Sea_Surface_Temperature['time_start'].min() # Earliest date\n",
+        "newest = Sea_Surface_Temperature['time_end'].max() # Latest date\n",
+        "\n",
+        "\n",
+        "print(newest)\n",
+        "print(oldest)\n"
+      ],
+      "metadata": {
+        "id": "Id5BE6TWnGtf"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install numpy\n",
+        "import numpy as np\n"
+      ],
+      "metadata": {
+        "id": "JKVJX7gxoqwR"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "\n",
+        "# Dropna\n",
+        "\n",
+        "df= Sea_Surface_Temperature.dropna(how= 'any', axis =0).reset_index()\n",
+        "\n",
+        "\n",
+        "missing_vals = [\"NA\",\"\", \"[NaT/Present]\",None, np.NAN]\n",
+        "missing = df.isin(missing_vals)\n",
+        "missing.head()\n",
+        "\n",
+        "df.fillna(0).head()\n"
+      ],
+      "metadata": {
+        "id": "z-tGURzrnxen"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "\n",
+        "oldest = df['time_start'].min() # Earliest date\n",
+        "#newest = df['time_end'].max() # Latest date\n",
+        "\n",
+        "\n",
+        "#print(newest)\n",
+        "print(oldest)\n",
+        "\n",
+        "#Detect a list of missing values with df.isin\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "HTNPZdMio8Ls"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#!pip install DataFrame\n",
+        "from pandas import DataFrame\n",
+        "\n",
+        "oldest = df['time_start'][38]\n",
+        "\n",
+        "df"
+      ],
+      "metadata": {
+        "id": "fN5xa3OmptM8"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "\n",
+        "\n",
+        "---\n",
+        "\n",
+        "\n",
+        "\n",
+        "---\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "7T-RLM1sOq2Q"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "[Time Series Panda resource](https://pandas.pydata.org/docs/user_guide/timeseries.html)"
+      ],
+      "metadata": {
+        "id": "5jKTe4KVJoii"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "short_name = 'REYNOLDS_NCDC_L4_MONTHLY_V5'"
+      ],
+      "metadata": {
+        "id": "9rrlU1grroVa"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pprint"
+      ],
+      "metadata": {
+        "id": "gN6AXppUsTvh"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        ""
+      ],
+      "metadata": {
+        "id": "5xqMyuVyOxj_"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from typing_extensions import get_origin\n",
+        "origin_value = get_origin(short_name)\n",
+        "\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "nWb5v-qnwSYG"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#short_name=\"AVHRR_OI-NCEI-L4-GLOB-v2.1\"\n",
+        "fns=sorted(podaac_s3+'/%s/*nc'%short_name)\n",
+        "print('There are %i files in this dataset.'%len(fns))\n",
+        "print('The first five files are:')\n",
+        "pprint.pprint(fns[:])\n",
+        "print('The last five files are:')\n",
+        "pprint.pprint(fns[-5:])"
+      ],
+      "metadata": {
+        "id": "x4Hi_2N-rrjp"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install podaac_data_subscriber\n",
+        "#!pip install podaac"
+      ],
+      "metadata": {
+        "id": "isgqHoMgsgRV"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def test_downloader_GRACE_with_SHA_512(tmpdir):\n",
+        "    # start with empty directory\n",
+        "    directory_str = str(tmpdir)\n",
+        "    assert len( os.listdir(directory_str) ) == 0\n",
+        "\n",
+        "    # run the command once -> should download the file. Note the modified time for the file\n",
+        "    args = create_downloader_args(f\"-c GRACEFO_L2_CSR_MONTHLY_0060 -sd 2020-01-01T00:00:00Z -ed 2020-01-02T00:00:01Z -d {str(tmpdir)} --limit 1 --verbose -e 00\".split())\n",
+        "    pdd.run(args)\n",
+        "    assert len( os.listdir(directory_str) ) > 0\n",
+        "    filename = directory_str + \"/\" + os.listdir(directory_str)[0]\n",
+        "    modified_time_1 = os.path.getmtime(filename)\n",
+        "    print( modified_time_1 )"
+      ],
+      "metadata": {
+        "id": "HbHkz4Ywu5CF"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pytest\n",
+        "import os\n",
+        "from os.path import exists\n",
+        "from subscriber import podaac_data_downloader as pdd\n",
+        "import shutil\n",
+        "from pathlib import Path\n"
+      ],
+      "metadata": {
+        "id": "PTXSJrpFzHHb"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# Getting a url from this dataset\n",
+        "\n",
+        "!pip install urlextract\n",
+        "\n",
+        "# A simple regex for URL matching like the following should fit your case.\n",
+        "from urllib.parse import urlparse"
+      ],
+      "metadata": {
+        "id": "barEZHALx6Bp"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install wget\n",
+        "import wget"
+      ],
+      "metadata": {
+        "id": "4GdXAjF_NQsh"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from sys import meta_path\n",
+        "from numpy.ma.core import get_data\n",
+        "from traitlets.traitlets import List\n",
+        "from posix import listdir\n",
+        "\n",
+        "#from traitlets.traitlets import List\n",
+        "from urllib.request import url2pathname\n",
+        "#get_origin(Literal[38])\n",
+        "\n",
+        "\n",
+        "df.\n"
+      ],
+      "metadata": {
+        "id": "Z3iDHhLgKGlp"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from urlextract import URLExtract\n",
+        "\n",
+        "extractor = URLExtract()\n",
+        "urls = extractor.find_urls('NOAA Smith and Reynolds Extended Reconstructed Sea Surface Temperature (ERSST) Level 4 Monthly Version 5 Dataset in netCDF')\n",
+        "print(urls) # prints: ['stackoverflow.com']"
+      ],
+      "metadata": {
+        "id": "AK6KJe6oHp-o"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "\n",
+        "\n",
+        "---\n",
+        "\n"
+      ],
+      "metadata": {
+        "id": "VytiepCcOzKk"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#find_dataset(keywords=['NOAA Smith and Reynolds Extended Reconstructed Sea Surface Temperature (ERSST) Level 4 Monthly Version 5 Dataset in netCDF'])\n",
+        "\n",
+        "#wind_data = find_dataset(keywords=['NOAA Smith and Reynolds Extended Reconstructed Sea Surface Temperature (ERSST) Level 4 Monthly Version 5 Dataset in netCDF'])\n",
+        "\n",
+        "df[:]\n",
+        "\n",
+        "find_dataset()\n",
+        "#source_type= findsource(keywords= ['REYNOLDS_NCDC_L4_MONTHLY_V5 '])\n",
+        "#display(source_type)\n"
+      ],
+      "metadata": {
+        "id": "chhlTQEVO3e_"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!wget < https://archive.podaac.earthdata.nasa.gov/s3credentials>"
+      ],
+      "metadata": {
+        "id": "1oZNv2CiZatv"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
